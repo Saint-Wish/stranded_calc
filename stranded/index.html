@@ -1,0 +1,159 @@
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">-->
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<!--[if lt IE 9 ]>
+			<script>
+				alert("You're using an outdated browser! Some things might not work!")
+			</script>
+		<![endif]-->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="javascript/calc_new.js"></script>
+		<script type="text/javascript" src="javascript/dw_tooltip_c.js"></script>
+		<link href='' rel='stylesheet' type='text/css'>
+		<script type="text/javascript">
+			dw_Tooltip.defaultProps = {
+    			content_source: 'class_id'
+			}
+
+			dw_Tooltip.writeStyleRule();
+
+			loadThemes();
+		</script>
+		<title>|G4P| Stranded Calcualator</title>
+	</head>
+	<body onload="fillOnLoad()">
+		<div class='wrapper'>
+
+			<h1>|G4P| Stranded Calculator</h1>
+
+			<div class='boxWrapper'>
+				<div class="boxTitle">Fields</div>
+				<table class='fields'>
+					<tr>
+						<td>Rank:</td>
+						<td>Select Skill:</td>
+						<td>EXP Amount:</td>
+					</tr>
+					<tr>
+						<td>
+							<select id="rank" onchange="doCalc();">
+								<option id="guest" value="guest">Guest</option>
+								<option id="member" value="member">Member/Veteran</option>
+								<option id="donator" value="donator">Donator/Sponsor</option>
+							</select>
+						</td>
+						<td>
+							<select name="form[skills][]" id="skills" onchange="dynamic1(this,'resource'); doCalc();">
+  								<option id="woodcutting" value="woodcutting">Wood Cutting</option>
+  								<option id="mining" value="mining">Mining</option>
+  								<option id="construction" value="construction">Construction</option>
+  								<option id="smithing" value="smithing">Smithing</option>
+  								<option id="farming" value="farming">Farming</option>
+  								<option id="fishing" value="fishing">Fishing</option>
+  								<option id="cooking" value="cooking">Cooking</option>
+  								<option id="combat" value="combat">Combat</option>
+  								<option id="alchemy" value="alchemy">Alchemy</option>
+  								<option id="arcane" value="arcane">Arcane</option>
+							</select>
+						</td>
+						<td><input type="text" id="exp_amount" onkeyup="doCalc();" class="showTip hint_exp_amount"/><br /></td>
+					</tr>
+
+					<tr>
+						<td>Server Bonus %:</td>
+						<td>Elixir Bonus:</td>
+						<td>Totem Bonus</td>
+					</tr>
+					<tr>
+						<td><input type="text" id="server_bonus" onkeyup="doCalc();" value="1" class="showTip hint_server_bonus"/></td>
+						<td>
+							<select id="elixir_bonus" onchange="doCalc();">
+								<option id="none" value="none">None</option>
+								<option id="25" value="25">25%</option>
+								<option id="50" value="50">50%</option>
+								<option id="100" value="100">100%</option>
+							</select>
+						</td>
+						<td>
+							<input type="checkbox" id="totem_bonus" onchange="doCalc();" value=""/>Using Totem
+						</td>
+					</tr>
+
+					<tr>
+						<td>Desired Level:</td>
+						<td>Resource:</td>
+						<td id="mob_level_label">NPC Level:</td>
+					</tr>
+					<tr>
+						<td><input type="text" id="desired_level" onkeyup="doCalc();"/></td>
+						<td>
+							<select name="form[resource][]" id="resource" onchange="doCalc();">
+							</select>
+						</td>
+						<td>
+							<input type="text" id="mob_level" onkeyup="doCalc();"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class='boxWrapper'>
+				<div class="boxTitle">Results</div>
+				<table class='results'>
+					<tr>
+						<td>How Much EXP is Needed:</td>
+						<td><input type="text" readonly='readonly' id="result1" /></td>
+					</tr>
+					<tr>
+						<td># of Skill Usage:</td>
+						<td><input type="text" readonly='readonly' id="result2" /></td>
+					</tr>
+				</table>
+			</div>
+
+			<div class='boxWrapper' id="themechoice">
+				<div class='boxTitle'>Theme</div>
+				<input type='button' value='Default' onClick="setTheme('default', 'themes/default/default.css');" />
+				<input type='button' value='Girly' onClick="setTheme('girly', 'themes/girly/girly.css');" />
+				<input type='button' value='Lila' onClick="setTheme('lila', 'themes/lila/lila.css');" />
+				<input type='button' value='Bleu' onClick="setTheme('bleu', 'themes/bleu/bleu.css');" />
+			</div>
+
+			<!--<div class='boxWrapper'>
+				<div class="boxTitle">Debugging</div>
+				<table class='results'>
+					<tr>
+						<td>desired_level:</td>
+						<td><input type="text" class="link copyable" readonly='readonly' disabled='disabled' id="debug" /></td>
+					</tr>
+					<tr>
+						<td>exp_amount:</td>
+						<td><input type="text" class="link copyable" readonly='readonly' disabled='disabled' id="debug2" /></td>
+					</tr>
+					<tr>
+						<td>rank:</td>
+						<td><input type="text" class="link copyable" readonly='readonly' disabled='disabled' id="debug3" /></td>
+					</tr>
+				</table>
+			</div>-->
+
+			<div class='boxFooter'>
+				<center><div class='footerText'>Calculator coded by Saint Wish, with a lot of help from Tigerkev. |G4P| Stranded is owned by <a href="http://g4p.org/index.php">Gman4President</a>.</div></center>
+			</div>
+
+		</div>
+
+		<script type="javascript">
+			dynamic1(document.getElementById(skills),'resource');
+		</script>
+
+		<!-- Hints -->
+		<div id="hint_exp_amount" class="tipContent">
+			The amount of EXP you have in your skill.
+		</div>
+		<div id="hint_server_bonus" class="tipContent">
+			The server bonus that is currently on the server. If there's no server bonus leave it at 1, if there is a server bonus type in the percent without the percent sign.
+		</div>
+	</body>
+</html>
